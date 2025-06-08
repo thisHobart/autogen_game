@@ -257,6 +257,12 @@ registry.json
 # Ruff stuff:
 .ruff_cache/
 
+dotnet
+.azure
+.github
+docs
+protos
+
 # PyPI configuration file
 .pypirc
 
