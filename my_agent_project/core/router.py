@@ -10,6 +10,15 @@ logger = logging.getLogger(__name__)
 
 def route(world: WorldState, user_input: str) -> Tuple[NPCState, str]:
     """Return the target NPC and cleaned message."""
+    if not world.npcs:
+        raise ValueError("World has no NPCs configured")
+
+    # If player is already in conversation, keep routing to that NPC
+    active = world.get_active_npc()
+    if active is not None:
+        logger.debug("Routing input to active NPC %s", active.name)
+        return active, user_input
+
     lowered = user_input.lower()
     for name, npc in world.npcs.items():
         prefix = f"{name.lower()}:"
