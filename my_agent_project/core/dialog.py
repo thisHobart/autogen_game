@@ -48,13 +48,13 @@ def _build_messages(npc: NPCState, user_input: str) -> List[Union[SystemMessage,
     return messages
 
 
-def get_npc_reply(npc: NPCState, user_input: str) -> str:
+async def get_npc_reply(npc: NPCState, user_input: str) -> str:
     """Send conversation to the model and return the assistant reply."""
     client = _ensure_client()
     messages = _build_messages(npc, user_input)
     logger.debug("Sending messages to model: %s", [m.model_dump() for m in messages])
     try:
-        result = asyncio.run(client.create(messages))
+        result = await client.create(messages)
     except Exception as exc:
         logger.error("Failed to get completion: %s", exc)
         raise
